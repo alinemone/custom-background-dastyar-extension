@@ -1,118 +1,12 @@
-/*
- * فایل شخصی‌سازی بک‌گراند
- * Custom Background Styles
- *
- * این فایل بک‌گراند اکستنشن را override می‌کند
- * This file overrides the extension background
- */
-
-/* تنظیم بک‌گراند body */
-body.override-body {
-    /* رنگ پیش‌فرض تیره به جای سیاه مطلق */
-    background: var(--custom-bg-color, #1a1a2e) !important;
-    background-image: var(--custom-bg-image, none) !important;
+body.bg-custom-image {
+    background-image: var(--custom-bg-image) !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-attachment: fixed !important;
-    /* جلوگیری از کیفیت پایین تصویر */
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    -webkit-font-smoothing: antialiased;
-    /* بهینه‌سازی برای سرعت */
-    will-change: background-image;
-    /* انیمیشن نرم */
-    transition: background-color 0.3s ease;
+    background-color: transparent !important;
 }
 
-/* کلاس‌های از پیش تعریف شده برای بک‌گراندهای مختلف */
-/* Predefined background classes */
-
-/* بک‌گراند گرادینت شب */
-body.bg-night-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    background-image: none !important;
-}
-
-/* بک‌گراند گرادینت غروب */
-body.bg-sunset-gradient {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
-    background-image: none !important;
-}
-
-/* بک‌گراند گرادینت اقیانوس */
-body.bg-ocean-gradient {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
-    background-image: none !important;
-}
-
-/* بک‌گراند گرادینت جنگل */
-body.bg-forest-gradient {
-    background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%) !important;
-    background-image: none !important;
-}
-
-/* بک‌گراند تیره */
-body.bg-dark {
-    background: #0f0f0f !important;
-    background-image: none !important;
-}
-
-/* بک‌گراند روشن */
-body.bg-light {
-    background: #f5f5f5 !important;
-    background-image: none !important;
-}
-
-/* برای استفاده از تصویر سفارشی */
-/* For custom image usage */
-body.bg-custom-image {
-    /* بک‌گراند تیره تا هنگام لود تصویر سیاه نباشد */
-    background-color: #1a1a2e !important;
-    background-image: var(--custom-bg-image) !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-    /* تنظیمات بهینه برای کیفیت بالای تصویر */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    /* بهینه‌سازی GPU */
-    will-change: background-image;
-    /* انیمیشن نرم برای تصویر */
-    animation: fadeInBackground 0.5s ease-in;
-}
-
-/* انیمیشن fade-in برای تصویر */
-@keyframes fadeInBackground {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-/* افکت blur برای بک‌گراند (اختیاری) */
-/* Background blur effect (optional) */
-/* توجه: این افکت ممکن است کیفیت تصویر را کاهش دهد */
-body.bg-blur::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    z-index: -1;
-    pointer-events: none;
-}
-
-/* لایه تیره روی بک‌گراند (برای خوانایی بهتر) */
-/* Dark overlay for better readability */
 body.bg-overlay::after {
     content: '';
     position: fixed;
@@ -123,28 +17,4 @@ body.bg-overlay::after {
     background: rgba(0, 0, 0, 0.3);
     z-index: -1;
     pointer-events: none;
-}
-
-/* حالت ترکیبی: تصویر با کیفیت بالا بدون افکت‌های اضافی */
-/* High quality image mode without effects */
-body.bg-custom-image:not(.bg-blur):not(.bg-overlay) {
-    /* حذف هر گونه فیلتر یا افکت */
-    filter: none !important;
-    -webkit-filter: none !important;
-}
-
-/* بهینه‌سازی برای تصاویر بزرگ */
-/* Optimization for large images */
-body.bg-custom-image::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-    will-change: transform;
 }
