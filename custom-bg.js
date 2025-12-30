@@ -64,7 +64,7 @@
         applyBackground() {
             const body = document.body;
 
-            body.classList.remove('bg-custom-image', 'bg-overlay');
+            body.classList.remove('bg-custom-image');
             body.style.removeProperty('--custom-bg-image');
 
             let imageUrl = this.settings.imageUrl;
