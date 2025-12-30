@@ -4,10 +4,20 @@
 
 ---
 
-## 📋 نصب (4 مرحله ساده)
+## ⚡ نصب سریع (یک کلیک!)
+
+فقط کافیست **`install.ps1`** را اجرا کنید!
+
+**روش اجرا:**
+- روی `install.ps1` راست‌کلیک کنید → **Run with PowerShell**
+- یا در ترمینال: `powershell -ExecutionPolicy Bypass -File install.ps1`
+
+---
+
+
+## 📋 نصب دستی (4 مرحله)
 
 ### مرحله 1️⃣: کپی کردن فولدر
-
 
 بعد از دانلود پروژه اسم پوشه را به  `custom-background` تغییر دهید و آن را در مسیر اکستنشن Dastyar کپی کنید.
 
@@ -126,6 +136,17 @@ C:\Users\YourName\AppData\Local\Google\Chrome\User Data\Default\Extensions\ebila
 4. **روی دکمه "✅ اعمال" کلیک کنید**
 
 همین! تصویر شما به عنوان بک‌گراند اعمال می‌شود. ✨
+
+---
+
+## 🖼️ تصویر پیش‌فرض
+
+این ابزار از تصویر روزانه Bing به عنوان پیش‌فرض استفاده می‌کند:
+```
+https://bing.biturl.top/?resolution=1920&format=image&index=0
+```
+
+می‌توانید آن را با تصویر دلخواه خود جایگزین کنید.
 
 ---
 
