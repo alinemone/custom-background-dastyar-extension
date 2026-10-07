@@ -17,9 +17,7 @@
     const BITURL_URL = 'https://bing.biturl.top/?resolution=1920&mkt=en-US&format=';
     const REMOTE_KEY = 'remote';
     const BING_RECHECK_MS = 60 * 60 * 1000;
-    const REQUEST_TIMEOUT_MS = 15000;
-    const ACTIVE_CLASS = 'cbg-active';
-    const PENDING_CLASS = 'cbg-pending';
+    const REQUEST_TIMEOUT_MS = 8000;
     const MAX_UPLOAD_SIDE = 2560;
     const KEEP_ORIGINAL_BYTES = 3 * 1024 * 1024;
     const MAX_DIM = 80;
@@ -98,13 +96,24 @@
 
     // --------------------------------------------------------------- indexedDB
 
-    function openDb() {
+    function openDbVersion(version) {
         return new Promise((resolve, reject) => {
-            const req = indexedDB.open(DB_NAME, 1);
-            req.onupgradeneeded = () => req.result.createObjectStore(DB_STORE);
+            const req = version ? indexedDB.open(DB_NAME, version) : indexedDB.open(DB_NAME);
+            req.onupgradeneeded = () => {
+                if (!req.result.objectStoreNames.contains(DB_STORE)) req.result.createObjectStore(DB_STORE);
+            };
             req.onsuccess = () => resolve(req.result);
             req.onerror = () => reject(req.error);
         });
+    }
+
+    // اگر دیتابیس قبلاً بدون store ساخته شده باشد، با یک نسخهٔ بالاتر store را می‌سازیم
+    async function openDb() {
+        const db = await openDbVersion();
+        if (db.objectStoreNames.contains(DB_STORE)) return db;
+        const next = db.version + 1;
+        db.close();
+        return openDbVersion(next);
     }
 
     async function withStore(mode, fn) {
@@ -220,15 +229,18 @@
     async function cacheRemote(source, url) {
         let blob = null;
         let finalUrl = url;
-        try {
-            const res = await fetchWithTimeout(url, {});
-            const body = await res.blob();
-            if (body.type.startsWith('image/')) {
-                blob = body;
-                finalUrl = res.url || url;
+        for (const candidate of withMirrors(url)) {
+            try {
+                const res = await fetchWithTimeout(candidate, {});
+                const body = await res.blob();
+                if (body.type.startsWith('image/')) {
+                    blob = body;
+                    finalUrl = res.url || candidate;
+                    break;
+                }
+            } catch (e) {
+                // no CORS, or this host timed out
             }
-        } catch (e) {
-            // no CORS
         }
         const record = { source, url: finalUrl, blob, checkedAt: Date.now() };
         await saveRemote(record).catch(() => {});
@@ -243,7 +255,7 @@
     async function refreshBing(settings, record, token) {
         const url = await fetchBingImageUrl(settings.bingIndex);
         if (!url) return;
-        if (url === record.url) {
+        if (withMirrors(url).includes(record.url)) {
             saveRemote({ ...record, checkedAt: Date.now() }).catch(() => {});
             return;
         }
@@ -266,6 +278,13 @@
         }
     }
 
+    // سرور عکس www.bing.com روی بعضی شبکه‌ها timeout می‌خورد؛ همان عکس روی cn.bing.com هم هست.
+    function withMirrors(url) {
+        if (!url) return [];
+        const match = url.match(/^https:\/\/www\.bing\.com(\/th\?.*)$/);
+        return match ? [url, 'https://cn.bing.com' + match[1]] : [url];
+    }
+
     function checkImage(url) {
         return new Promise(resolve => {
             const img = new Image();
@@ -281,18 +300,57 @@
         });
     }
 
-    // روی <html> اعمال می‌شود چون این اسکریپت داخل <head> و قبل از ساخته شدن <body> اجرا می‌شود.
+    // دستیار موقع اعمال تم همهٔ کلاس‌های <html> را پاک می‌کند (classList = "") و عکس خودش را
+    // روی html.style.backgroundImage می‌گذارد؛ برای همین به جای کلاس، یک <style> اختصاصی
+    // می‌نویسیم که در <head> است و دستیار به آن دست نمی‌زند.
+    let backgroundStyle = null;
+    let paintedUrl = '';
+
+    function writeBackgroundCss(css) {
+        if (!backgroundStyle || !backgroundStyle.isConnected) {
+            backgroundStyle = document.getElementById('cbg-background') || document.createElement('style');
+            backgroundStyle.id = 'cbg-background';
+            (document.head || document.documentElement).append(backgroundStyle);
+        }
+        backgroundStyle.textContent = css;
+    }
+
+    // والپیپر خود دستیار یک لایهٔ fixed تمام‌صفحه است (div.fixed.inset-0.-z-10) که داخلش
+    // div.background (عکس) یا <video> است و روی body کشیده می‌شود؛ پس عکس ما روی همان لایه
+    // هم اعمال و محتوای داخلش مخفی می‌شود. body برای صفحهٔ onboarding که این لایه را ندارد.
+    const WALLPAPER_LAYER = 'body .fixed.inset-0:has(> .background), body .fixed.inset-0:has(> video)';
+    const WALLPAPER_CONTENT = 'body .fixed.inset-0:has(> .background) > *, body .fixed.inset-0:has(> video) > *';
+
+    // تا وقتی تصویر از کش خوانده شود، تصویر پیش‌فرض دستیار نمایش داده نشود
+    function hideDefaultBackground() {
+        writeBackgroundCss(
+            'html, html body { background-image: none !important; }\n' +
+            WALLPAPER_CONTENT + ' { visibility: hidden !important; }');
+    }
+
     function paint(url, dim) {
-        const root = document.documentElement;
-        root.classList.remove(PENDING_CLASS);
-        root.style.setProperty('--cbg-dim', String(dim / 100));
+        paintedUrl = url;
         if (!url) {
-            root.classList.remove(ACTIVE_CLASS);
-            root.style.removeProperty('--cbg-image');
+            writeBackgroundCss('');
             return;
         }
-        root.style.setProperty('--cbg-image', cssUrl(url));
-        root.classList.add(ACTIVE_CLASS);
+        const shade = 'rgba(0, 0, 0, ' + (dim / 100) + ')';
+        writeBackgroundCss(
+            'html { background-image: none !important; }\n' +
+            'html body, ' + WALLPAPER_LAYER + ' {\n' +
+            '    background-color: #111 !important;\n' +
+            '    background-image: linear-gradient(' + shade + ', ' + shade + '), ' + cssUrl(url) + ' !important;\n' +
+            '    background-size: cover !important;\n' +
+            '    background-position: center !important;\n' +
+            '    background-repeat: no-repeat !important;\n' +
+            '    background-attachment: fixed !important;\n' +
+            '    background-blend-mode: normal !important;\n' +
+            '}\n' +
+            WALLPAPER_CONTENT + ' { visibility: hidden !important; }');
+    }
+
+    function setDim(dim) {
+        if (paintedUrl) paint(paintedUrl, dim);
     }
 
     // true = تصویر لود شد، false = لود نشد (بک‌گراند پیش‌فرض دستیار برمی‌گردد)، null = تصویری نیست یا درخواست جدیدتری آمده
@@ -305,11 +363,11 @@
             if (token !== paintToken) return null;
             if (record && record.source === source && (record.blob || record.url)) {
                 const url = recordImageUrl(record);
-                paint(url, settings.dim);
                 // تصویری که فقط آدرسش ذخیره شده ممکن است از کش مرورگر پاک شده و آفلاین باشیم
                 const ok = record.blob ? true : await checkImage(url);
                 if (token !== paintToken) return null;
                 if (ok) {
+                    paint(url, settings.dim);
                     if (settings.mode === 'bing' && Date.now() - record.checkedAt > BING_RECHECK_MS) {
                         refreshBing(settings, record, token);
                     }
@@ -320,18 +378,21 @@
 
         const tried = [];
         for (const candidate of imageCandidates(settings, pendingUploadUrl)) {
-            const url = await candidate();
+            const resolved = await candidate();
             if (token !== paintToken) return null;
-            if (!url || tried.includes(url)) continue;
-            tried.push(url);
 
-            // فوری اعمال می‌شود تا بک‌گراند پیش‌فرض دستیار لحظه‌ای دیده نشود؛ اگر لود نشد سراغ آدرس بعدی می‌رویم
-            paint(url, settings.dim);
-            const ok = await checkImage(url);
-            if (token !== paintToken) return null;
-            if (ok) {
-                if (source) cacheRemote(source, url);
-                return true;
+            for (const url of withMirrors(resolved)) {
+                if (tried.includes(url)) continue;
+                tried.push(url);
+
+                // اول کامل لود می‌شود و بعد روی صفحه می‌آید، تا موقع انتظار صفحه سیاه نشود
+                const ok = await checkImage(url);
+                if (token !== paintToken) return null;
+                if (ok) {
+                    paint(url, settings.dim);
+                    if (source) cacheRemote(source, url);
+                    return true;
+                }
             }
         }
 
@@ -609,7 +670,7 @@
 
             // تغییر تیرگی نیازی به لود دوباره تصویر ندارد
             if (Object.keys(patch).length === 1 && 'dim' in patch) {
-                document.documentElement.style.setProperty('--cbg-dim', String(this.draft.dim / 100));
+                setDim(this.draft.dim);
                 return;
             }
 
@@ -675,8 +736,7 @@
     // ------------------------------------------------------------------- start
 
     const initialSettings = readSettings();
-    // تا وقتی تصویر از کش خوانده شود، تصویر پیش‌فرض دستیار نمایش داده نشود
-    if (initialSettings.mode !== 'none') document.documentElement.classList.add(PENDING_CLASS);
+    if (initialSettings.mode !== 'none') hideDefaultBackground();
     applyBackground(initialSettings);
     localStorage.removeItem('dastyar_custom_background_bing'); // cache of the previous version
 

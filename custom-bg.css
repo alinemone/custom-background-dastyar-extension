@@ -1,21 +1,4 @@
-/* ------------------------------------------------------------ background */
-
-html.cbg-active body {
-    background-color: #111 !important;
-    background-image:
-        linear-gradient(rgba(0, 0, 0, var(--cbg-dim, 0)), rgba(0, 0, 0, var(--cbg-dim, 0))),
-        var(--cbg-image) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-    background-blend-mode: normal !important;
-}
-
-/* while the saved image is read from the cache, hide Dastyar's own image so it does not flash */
-html.cbg-pending body {
-    background-image: none !important;
-}
+/* the background itself is written by custom-bg.js into <style id="cbg-background"> */
 
 /* ------------------------------------------------------------ trigger button */
 

@@ -1,8 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f2f96cb3-96fc-48bf-b09b-7aa8d37bebc0" name="Changes" comment="fix bug and ui/ux" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="13" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "alinemone"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/alinemone/custom-background-dastyar-extension",
+    "accountId": "2bc004c1-09a3-41b2-bc59-f20b77e34cfb"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000001640028868" />
+      <entry key="MS500" value="1.0533813841171358" />
+      <entry key="S2" value="2.0720402442512755" />
+      <entry key="S5" value="3.2970875667420985" />
+      <entry key="S10" value="4.0164509172638825" />
+      <entry key="S30" value="4.636870475483804" />
+      <entry key="S60" value="4.813589443971111" />
+      <entry key="M2" value="4.905547757090245" />
+      <entry key="M5" value="4.961915157581114" />
+      <entry key="M10" value="4.980906526328033" />
+      <entry key="M15" value="4.987259643110411" />
+      <entry key="M30" value="4.993624126952896" />
+      <entry key="H1" value="4.996810638440052" />
+      <entry key="H2" value="4.998404962787544" />
+      <entry key="H4" value="4.9992023922639675" />
+      <entry key="D1" value="4.999867052996347" />
+      <entry key="W1" value="4.999981007267676" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9726551047343704" />
+      <entry key="MS500" value="1.0474116212185736" />
+      <entry key="S2" value="2.0684974731797046" />
+      <entry key="S5" value="3.2946962305073724" />
+      <entry key="S10" value="4.014969714506853" />
+      <entry key="S30" value="4.63629467551009" />
+      <entry key="S60" value="4.8132898564602185" />
+      <entry key="M2" value="4.905394922409602" />
+      <entry key="M5" value="4.961853278107059" />
+      <entry key="M10" value="4.980875460985798" />
+      <entry key="M15" value="4.987238904870015" />
+      <entry key="M30" value="4.993613743801506" />
+      <entry key="H1" value="4.99680544335185" />
+      <entry key="H2" value="4.998402364364725" />
+      <entry key="H4" value="4.999201092832806" />
+      <entry key="D1" value="4.999866836393959" />
+      <entry key="W1" value="4.99998097632373" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3KMeRYePAAGSuIX01A11uCcE0wK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{}</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/aalimohammadi/Desktop/custom-background-dastyar-extension",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-PY-262.8665.309" />
+        <option value="bundled-python-sdk-c6d794e1806d-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.8665.309" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2f96cb3-96fc-48bf-b09b-7aa8d37bebc0" name="Changes" comment="" />
+      <created>1791371856931</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1791371856931</updated>
+      <workItem from="1791371857961" duration="44000" />
+    </task>
+    <task id="LOCAL-00001" summary="fix bug and ui/ux">
+      <option name="closed" value="true" />
+      <created>1791371884893</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1791371884893</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix bug and ui/ux" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug and ui/ux" />
+  </component>
 </project>
