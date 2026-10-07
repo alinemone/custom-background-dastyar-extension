@@ -1,8 +1,364 @@
-body.bg-custom-image {
-    background-image: var(--custom-bg-image) !important;
+/* ------------------------------------------------------------ background */
+
+html.cbg-active body {
+    background-color: #111 !important;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, var(--cbg-dim, 0)), rgba(0, 0, 0, var(--cbg-dim, 0))),
+        var(--cbg-image) !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-attachment: fixed !important;
-    background-color: transparent !important;
+    background-blend-mode: normal !important;
+}
+
+/* while the saved image is read from the cache, hide Dastyar's own image so it does not flash */
+html.cbg-pending body {
+    background-image: none !important;
+}
+
+/* ------------------------------------------------------------ trigger button */
+
+.cbg-corner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2147483000;
+}
+
+.cbg-trigger {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    background: rgba(15, 15, 20, 0.35);
+    color: #fff;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    opacity: 0.12;
+    transform: scale(0.85);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.cbg-trigger svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cbg-corner:hover .cbg-trigger,
+.cbg-trigger:focus-visible,
+.cbg-trigger--open {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.cbg-trigger:hover,
+.cbg-trigger--open {
+    background: rgba(15, 15, 20, 0.6);
+}
+
+.cbg-trigger:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------ panel */
+
+.cbg-panel,
+.cbg-panel * {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.cbg-panel [hidden] {
+    display: none !important;
+}
+
+.cbg-panel {
+    position: fixed;
+    bottom: 56px;
+    left: 14px;
+    width: 320px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    background: rgba(18, 18, 24, 0.78);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    color: #f4f4f5;
+    font-size: 13px;
+    line-height: 1.6;
+    z-index: 2147483001;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    transform-origin: bottom left;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cbg-panel--visible {
+    opacity: 1;
+    transform: none;
+}
+
+.cbg-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cbg-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.cbg-icon-btn {
+    width: 28px;
+    height: 28px;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #a1a1aa;
+    cursor: pointer;
+}
+
+.cbg-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.cbg-icon-btn svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cbg-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.cbg-tab {
+    padding: 7px 0;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #a1a1aa;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cbg-tab:hover {
+    color: #fff;
+}
+
+.cbg-tab--active {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    font-weight: 600;
+}
+
+.cbg-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cbg-label {
+    display: flex;
+    justify-content: space-between;
+    color: #a1a1aa;
+    font-size: 12px;
+}
+
+.cbg-range-value {
+    color: #f4f4f5;
+}
+
+.cbg-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #f4f4f5;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.cbg-input:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.cbg-input option {
+    background: #18181b;
+    color: #f4f4f5;
+}
+
+.cbg-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 18px 12px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #a1a1aa;
+    font-size: 12.5px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.cbg-drop:hover,
+.cbg-drop--over {
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.07);
+    color: #f4f4f5;
+}
+
+.cbg-drop-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.cbg-drop-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cbg-range {
+    width: 100%;
+    margin: 0;
+    accent-color: #fff;
+    cursor: pointer;
+}
+
+.cbg-access {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #a1a1aa;
+    font-size: 12px;
+}
+
+.cbg-access-btn {
+    flex: none;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 8px;
+    background: #f4f4f5;
+    color: #18181b;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cbg-access-btn:hover {
+    background: #fff;
+}
+
+.cbg-hint {
+    margin: 0;
+    color: #a1a1aa;
+    font-size: 12.5px;
+}
+
+.cbg-status {
+    margin: -4px 0;
+    min-height: 0;
+    color: #a1a1aa;
+    font-size: 12px;
+}
+
+.cbg-status:empty {
+    display: none;
+}
+
+.cbg-status--error {
+    color: #fca5a5;
+}
+
+.cbg-status--loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cbg-status--loading::before {
+    content: "";
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #f4f4f5;
+    border-radius: 50%;
+    animation: cbg-spin 0.7s linear infinite;
+}
+
+@keyframes cbg-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cbg-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.cbg-btn {
+    flex: 1;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e4e4e7;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.cbg-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.cbg-btn--primary {
+    background: #f4f4f5;
+    color: #18181b;
+}
+
+.cbg-btn--primary:hover {
+    background: #fff;
+}
+
+.cbg-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
 }

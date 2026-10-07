@@ -1,0 +1,88 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="backbone-financial-sdk" />
+          <option value="backbone-salam-pay-api-sdk" />
+          <option value="aiokafka" />
+          <option value="mockafka-py" />
+          <option value="opentelemetry-instrumentation-asyncpg" />
+          <option value="fastapi" />
+          <option value="uvicorn" />
+          <option value="pydantic" />
+          <option value="pydantic-settings" />
+          <option value="basalam.backbone-orm" />
+          <option value="asyncpg" />
+          <option value="pypika" />
+          <option value="backbone-auth-sdk" />
+          <option value="backbone-translation" />
+          <option value="backbone-health-check" />
+          <option value="backbone-basalam-enums" />
+          <option value="basalam.backbone-redis-cache" />
+          <option value="httpx" />
+          <option value="aiohttp" />
+          <option value="redis" />
+          <option value="rq" />
+          <option value="zeep" />
+          <option value="apscheduler" />
+          <option value="sentry-sdk" />
+          <option value="opentelemetry-api" />
+          <option value="opentelemetry-sdk" />
+          <option value="opentelemetry-exporter-otlp" />
+          <option value="opentelemetry-exporter-jaeger-thrift" />
+          <option value="opentelemetry-instrumentation-fastapi" />
+          <option value="opentelemetry-instrumentation-httpx" />
+          <option value="opentelemetry-instrumentation-redis" />
+          <option value="opentelemetry-instrumentation-rq" />
+          <option value="opentelemetry-instrumentation-aiokafka" />
+          <option value="pytesseract" />
+          <option value="lxml" />
+          <option value="jdatetime" />
+          <option value="python-multipart" />
+          <option value="python-jose" />
+          <option value="passlib" />
+          <option value="inflect" />
+          <option value="testing.postgresql" />
+          <option value="requests" />
+          <option value="orjson" />
+          <option value="setuptools" />
+          <option value="pg8000" />
+          <option value="prometheus_client" />
+          <option value="opentelemetry-exporter-jaeger" />
+          <option value="opentelemetry-exporter-jaeger-proto-grpc" />
+          <option value="opentelemetry-instrumentation" />
+          <option value="opentelemetry-instrumentation-asgi" />
+          <option value="opentelemetry-instrumentation-dbapi" />
+          <option value="opentelemetry-instrumentation-elasticsearch" />
+          <option value="opentelemetry-instrumentation-pymongo" />
+          <option value="opentelemetry-instrumentation-requests" />
+          <option value="opentelemetry-semantic-conventions" />
+          <option value="opentelemetry-util-http" />
+          <option value="backbone-exception-handling" />
+          <option value="basalam.backbone-api" />
+          <option value="basalam.hermes-messaging-sdk" />
+          <option value="weasyprint" />
+          <option value="Jinja2" />
+          <option value="pypdf" />
+          <option value="python-barcode" />
+          <option value="python-bidi" />
+          <option value="segno" />
+          <option value="pytest" />
+          <option value="pytest-asyncio" />
+          <option value="asn1crypto" />
+          <option value="backbone-accounting-sdk" />
+          <option value="python-dateutil" />
+          <option value="python-dotenv" />
+          <option value="scramp" />
+          <option value="typing-extensions" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyTypeHintsInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>

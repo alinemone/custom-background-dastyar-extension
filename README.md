@@ -1,153 +1,49 @@
-# 🎨 ابزار شخصی‌سازی بک‌گراند برای اکستنشن Dastyar
+# 🎨 پس‌زمینهٔ دلخواه برای اکستنشن Dastyar
 
-این ابزار به شما اجازه می‌دهد تصویر دلخواه خود را به عنوان بک‌گراند اکستنشن Dastyar قرار دهید.
-
----
-
-## ⚡ نصب سریع (یک کلیک!)
-
-فقط کافیست **`install.ps1`** را اجرا کنید!
-
-**روش اجرا:**
-- روی `install.ps1` راست‌کلیک کنید → **Run with PowerShell**
-- یا در ترمینال: `powershell -ExecutionPolicy Bypass -File install.ps1`
+تصویر دلخواه خودت (لینک، فایل آپلودی یا تصویر روزانهٔ Bing) را پس‌زمینهٔ تب جدید Dastyar کن.
 
 ---
 
+## ⚡ نصب
 
-## 📋 نصب دستی (4 مرحله)
+روی **`install.bat`** دابل‌کلیک کن (برای حذف: **`uninstall.bat`**).
 
-### مرحله 1️⃣: کپی کردن فولدر
+یا روی **`install.ps1`** راست‌کلیک کن و **Run with PowerShell** را بزن، یا در ترمینال:
 
-بعد از دانلود پروژه اسم پوشه را به  `custom-background` تغییر دهید و آن را در مسیر اکستنشن Dastyar کپی کنید.
-
-**مسیر دقیق:**
-```
-اگر مسیر اکستنشن شما این است:
-C:\Users\YourName\AppData\Local\Google\Chrome\User Data\Default\Extensions\ebilacdhmebcihmbjgibcbeaihbecapj\4.2.4_1
-
-فولدر را اینجا بگذارید:
-C:\Users\YourName\AppData\Local\Google\Chrome\User Data\Default\Extensions\ebilacdhmebcihmbjgibcbeaihbecapj\4.2.4_1\custom-background\
+```powershell
+powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
-**نتیجه باید این شکلی باشد:**
-```
-4.2.4_0\
-├── custom-background\      ← فولدر جدید
-│   ├── custom-bg.css
-│   ├── custom-bg.js
-│   └── README.md
-├── dist\
-├── assets\
-├── manifest.json
-└── background.js
-```
+بعد یک تب جدید باز کن. نیازی به Reload کردن اکستنشن نیست.
 
----
+اسکریپت نصب:
 
-### مرحله 2️⃣: ویرایش فایل manifest.json
+- Dastyar را در **همهٔ پروفایل‌های** Chrome، Edge و Brave پیدا می‌کند.
+- فایل‌ها را در پوشهٔ `custom-background` اکستنشن کپی می‌کند و صفحهٔ تب جدید را پچ می‌کند.
+- به `manifest.json` فقط یک دسترسی **اختیاری** `https://www.bing.com/*` اضافه می‌کند (`optional_host_permissions`). این دسترسی تا وقتی خودت در پنل اجازه ندهی فعال نمی‌شود و باعث غیرفعال شدن اکستنشن توسط کروم نمی‌شود. بعد از اولین نصب، یک بار مرورگر را ری‌استارت کن (یا Dastyar را در `chrome://extensions` Reload کن).
+- یک **Scheduled Task** به نام `DastyarCustomBackground` می‌سازد که هنگام ورود به ویندوز و هر ۳۰ دقیقه اجرا می‌شود. وقتی Dastyar آپدیت شود (و کروم آن را در پوشهٔ نسخهٔ جدید نصب کند)، پس‌زمینه خودکار دوباره نصب می‌شود.
+- هر چند بار که اجرا شود مشکلی ایجاد نمی‌کند و نصب‌های نسخهٔ قبلی را هم تمیز به‌روز می‌کند.
 
-1. فایل `manifest.json` را در مسیر اصلی اکستنشن باز کنید
-2. قسمت `"web_accessible_resources"` را پیدا کنید
-3. در قسمت `"resources"` این خط را اضافه کنید:
+| دستور | کار |
+|---|---|
+| `install.ps1` | نصب + ساخت تسک آپدیت خودکار |
+| `install.ps1 -NoTask` | فقط نصب روی نسخه‌های فعلی، بدون تسک |
+| `install.ps1 -Uninstall` | حذف کامل از همهٔ نسخه‌ها و حذف تسک |
 
-**قبل از تغییر:**
-```json
-"web_accessible_resources": [ {
-  "matches": [ "<all_urls>" ],
-  "resources": [ "assets/img/lib/*" ]
-} ]
-```
-
-**بعد از تغییر:**
-```json
-"web_accessible_resources": [ {
-  "matches": [ "<all_urls>" ],
-  "resources": [
-    "assets/img/lib/*",
-    "custom-background/*"
-  ]
-} ]
-```
-
-⚠️ **نکته مهم:** فقط `"custom-background/*"` را اضافه کنید و ویرگول (,) را فراموش نکنید!
-
----
-
-### مرحله 3️⃣: ویرایش فایل index.html
-
-1. به مسیر `dist\override\` بروید
-2. فایل `index.html` را باز کنید
-3. این 2 خط را **قبل از** `</head>` اضافه کنید:
-
-```html
-<link rel="stylesheet" href="/custom-background/custom-bg.css">
-<script src="/custom-background/custom-bg.js"></script>
-```
-
-**مثال کامل:**
-```html
-<!doctype html>
-<html lang="fa" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <base target="_blank" />
-    <title>New tab</title>
-    <script type="module" crossorigin src="/dist/assets/override-DDlCyY7i.js"></script>
-    <link rel="modulepreload" crossorigin href="/dist/assets/_commonjsHelpers-CNBic1d4.js">
-    <link rel="modulepreload" crossorigin href="/dist/assets/vendor-BxtyZXV1.js">
-    <link rel="modulepreload" crossorigin href="/dist/assets/ui-rnakXG1H.js">
-    <link rel="stylesheet" crossorigin href="/dist/assets/override-DIrjmJxV.css">
-    <-- فایل های جدید -->
-    <link rel="stylesheet" href="/custom-background/custom-bg.css">
-    <script src="/custom-background/custom-bg.js"></script>
-  </head>
-
-  <body class="override-body">
-    <div id="app"></div>
-  </body>
-</html>
-```
-
----
-
-### مرحله 4️⃣: بارگذاری مجدد اکستنشن
-
-1. مرورگر Chrome را باز کنید
-2. آدرس `chrome://extensions/` را در نوار آدرس تایپ کنید
-3. حالت **Developer mode** را در گوشه بالا راست فعال کنید
-4. اکستنشن Dastyar را پیدا کنید
-5. روی دکمه **🔄 Reload** کلیک کنید
-6. یک تب جدید باز کنید
+گزارش آخرین اجرای تسک در `%LOCALAPPDATA%\DastyarCustomBackground\last-run.log` است.
 
 ---
 
 ## 🎯 استفاده
 
-پس از نصب، یک دکمه 🎨 در گوشه پایین سمت چپ صفحه ظاهر می‌شود.
+ماوس را به **گوشهٔ پایین‌چپ** صفحه ببر تا دکمهٔ کوچک تصویر ظاهر شود (یا `Alt+B` را بزن).
 
-**مراحل استفاده:**
+- **بدون**: پس‌زمینهٔ پیش‌فرض دستیار
+- **Bing**: تصویر روزانهٔ Bing (امروز تا ۷ روز قبل). یک بار دکمهٔ «اجازه دادن» را بزن تا تصویر مستقیم از `HPImageArchive` خود Bing با تاریخ دقیق گرفته شود. بدون این اجازه از `bing.biturl.top` استفاده می‌شود که فقط «امروز»ش دقیق است.
+- **لینک**: آدرس یک تصویر
+- **آپلود**: انتخاب فایل یا کشیدن و رها کردن آن روی کادر. عکس‌های بزرگ‌تر از ۳MB خودکار به حداکثر 2560px و JPEG تبدیل و در IndexedDB ذخیره می‌شوند.
+- **تیرگی**: یک لایهٔ تیره روی تصویر تا ویجت‌ها خواناتر شوند.
 
-1. **روی دکمه 🎨 کلیک کنید**
-2. **یکی از این روش‌ها را انتخاب کنید:**
-   - **لینک تصویر:** آدرس تصویر را در کادر بالا بگذارید (مثل: `https://example.com/image.jpg`)
-   - **آپلود فایل:** روی "Choose File" کلیک کنید و تصویر از کامپیوتر انتخاب کنید
-3. **اختیاری:** اگر می‌خواهید یک لایه تیره روی تصویر باشد، تیک "لایه تیره" را بزنید
-4. **روی دکمه "✅ اعمال" کلیک کنید**
+تغییرات به صورت زنده روی صفحه نمایش داده می‌شوند. با **ذخیره** ثبت می‌شوند و با **انصراف**، `Esc` یا کلیک بیرون پنل به حالت قبل برمی‌گردند. اگر تصویر لود نشود (لینک خراب یا قطعی اینترنت)، پس‌زمینهٔ پیش‌فرض دستیار نمایش داده می‌شود.
 
-همین! تصویر شما به عنوان بک‌گراند اعمال می‌شود. ✨
-
----
-
-## 🖼️ تصویر پیش‌فرض
-
-این ابزار از تصویر روزانه Bing به عنوان پیش‌فرض استفاده می‌کند:
-```
-https://bing.biturl.top/?resolution=1920&format=image&index=0
-```
-
-می‌توانید آن را با تصویر دلخواه خود جایگزین کنید.
-
----
-
-**ساخته شده با ❤️**
+**کش:** تصویر Bing یا لینک بعد از اولین دانلود در IndexedDB ذخیره می‌شود، پس تب‌های بعدی بدون هیچ درخواست شبکه‌ای و حتی آفلاین باز می‌شوند. برای Bing حداکثر ساعتی یک بار یک درخواست کوچک JSON زده می‌شود و تصویر فقط وقتی دوباره دانلود می‌شود که عوض شده باشد. تصویر حالت «لینک» دوباره چک نمی‌شود؛ اگر محتوای آن آدرس عوض شد، یک بار دوباره ذخیره‌اش کن.
